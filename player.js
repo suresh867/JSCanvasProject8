@@ -10,8 +10,9 @@ export class Player{
         this.image = document.getElementById('playerImg');
 
     }
-    update(){
-        this.x += 1;
+    update(input){
+        if(input.includes('ArrowRight')) this.x++;
+        else if (input.includes('ArrowLeft')) this.x--;
     }
     draw(context){
         context.fillStyle = 'red';
