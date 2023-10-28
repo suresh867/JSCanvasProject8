@@ -22,6 +22,7 @@ export class Player{
         this.states = [new Sitting(this),new Running(this), new Jumping(this), 
         new Falling(this)];
         this.currentState = this.states[0];
+        this.currentState.enter();
     }
     update(input, deltaTime){
         this.currentState.handleInput(input);
@@ -45,8 +46,7 @@ export class Player{
         } else {
             this.frameTimer += deltaTime;
         }
-        
-        
+         
     }
     draw(context){
         context.fillStyle = 'red';
@@ -57,8 +57,9 @@ export class Player{
     onGround(){
         return this.y >= this.game.height - this.height - this.game.groundMargin;
     }
-    setState(state){
+    setState(state, speed){
         this.currentState = this.states[state];
+        this.game.speed = this.game.speed * speed;
         this.currentState.enter();
     }
 }
