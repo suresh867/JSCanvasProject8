@@ -25,6 +25,7 @@ export class Player{
         this.currentState.enter();
     }
     update(input, deltaTime){
+        this.checkCollision();
         this.currentState.handleInput(input);
         //for horizontal movement;
         this.x += this.speed;
@@ -62,5 +63,19 @@ export class Player{
         this.currentState = this.states[state];
         this.game.speed = this.game.maxSpeed * speed;
         this.currentState.enter();
+    }
+    checkCollision(){
+        this.game.enemies.forEach(enemy => {
+            if(
+                enemy.x < this.x + this.width && 
+                enemy.x + this.width > this.x &&
+                enemy.y < this.y + this.height &&
+                enemy.y + enemy.height > this.y
+            ){
+                enemy.markedForDeletion = true;
+                this.game.score++;
+                console.log(this.game.score);
+            }
+        });
     }
 }
