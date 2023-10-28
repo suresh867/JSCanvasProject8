@@ -41,14 +41,29 @@ export class FlyingEnemy extends Enemy{
         this.speedY =  0;
         this.maxFrame = 5;
         this.image = document.getElementById('enemyFly');
+        this.angle = 0;
+        this.va = Math.random() * 0.1 + 0.1;
     }
     update(deltaTime){
         super.update(deltaTime);
+        this.angle += this.va;
+        this.y += Math.sin(this.angle);
     }
 }
 
 export class GroundEnemy extends Enemy{
-
+    constructor(game){
+        super();
+        this.game = game;
+        this.width = 60;
+        this.height = 87;
+        this.x = this.game.width;
+        this.y = this.game.height - this.height - this.game.groundMargin;
+        this.image = document.getElementById('enemyPlant');
+        this.speedX = 0;
+        this.speedY = 0;
+        this.maxFrame = 1;
+    }
 }
 
 export class ClimbingEnemy extends Enemy{
