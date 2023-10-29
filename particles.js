@@ -6,7 +6,7 @@ class Particle {
     update(){
         this.x -= this.speedX + this.game.speed;
         this.y -= this.speedY;
-        this.size *= 0.95;
+        this.size *= 0.97;
         if(this.size < 0.5) this.markedForDeletion = true;
     }
 }
@@ -28,6 +28,27 @@ export class Dust extends Particle{
     }
 }
 
+export class Splash extends Particle{
+    constructor(game, x, y){
+        super(game);
+        this.size = Math.random() * 100 + 100;
+        this.x = x - this.size * 0.4;
+        this.y = y - this.size * 0.5;
+        this.speedX = Math.random() * 6 -4;
+        this.speedY = Math.random() * 2 + 2;
+        this.gravity = 0;
+        this.image = document.getElementById('fireImg');
+    }
+    update(){
+        super.update();
+        this.gravity += 0.1;
+        this.y += this.gravity;
+    }
+    draw(context){
+        context.drawImage(this.image, this.x, this.y, this.size, this.size);
+    }
+}
+
 export class Fire extends Particle{
     constructor(game, x, y){
         super(game);
@@ -43,6 +64,7 @@ export class Fire extends Particle{
     update(){
         super.update();
         this.angle += this.va;
+        this.x += Math.sin(this.angle * 5);
     }
     draw(context){
         context.save();

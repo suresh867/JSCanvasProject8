@@ -1,5 +1,5 @@
 /**@type {HTMLCanvasElement} */
-import { Sitting, Running, Jumping, Falling, Rolling } from "./playerStates.js";
+import { Sitting, Running, Jumping, Falling, Rolling, Diving, HIT } from "./playerStates.js";
 
 export class Player{
     constructor(game){
@@ -20,7 +20,7 @@ export class Player{
         this.speed = 0;
         this.maxSpeed = 10;
         this.states = [new Sitting(this.game),new Running(this.game), new Jumping(this.game), 
-        new Falling(this.game), new Rolling(this.game)];
+        new Falling(this.game), new Rolling(this.game), new Diving(this.game), new HIT(this.game)];
     }
     update(input, deltaTime){
         this.checkCollision();
@@ -37,6 +37,9 @@ export class Player{
         this.y += this.vy;
         if(!this.onGround()) this.vy += this.gravity;
         else this.vy = 0;
+
+        if(this.y > this.game.height - this.height - this.game.groundMargin) this.y = 
+        this.game.height - this.height - this.game.groundMargin;
         //for sprite animation
         if(this.frameTimer > this.frameInterval){
             this.frameTimer = 0;
@@ -71,8 +74,12 @@ export class Player{
                 enemy.y + enemy.height > this.y
             ){
                 enemy.markedForDeletion = true;
-                this.game.score++;
-                console.log(this.game.score);
+                if(this.currentState === this.states[4] || 
+                    this.currentState === this.states[5]){
+                        this.game.score++;
+                    } else{
+                        this.setState(6, 0);
+                    }
             }
         });
     }
