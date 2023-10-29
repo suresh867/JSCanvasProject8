@@ -15,6 +15,6 @@
 }
 
 #playerImg, #layer1, #layer2, #layer3, #layer4, #layer5 ,
-#enemyFly, #enemyPlant, #enemySpider{
+#enemyFly, #enemyPlant, #enemySpider, #fireImg{
     display: none;
 }
